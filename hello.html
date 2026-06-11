@@ -2,30 +2,585 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>龙虾干活啦</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub 新手入门指南 | 龙虾干活啦</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        * {
             margin: 0;
-            background: #3498db;
-            font-family: 'Arial', sans-serif;
+            padding: 0;
+            box-sizing: border-box;
         }
-        h1 {
-            font-size: 4em;
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 顶部标题区域 */
+        .header {
+            text-align: center;
             color: white;
+            margin-bottom: 40px;
+            animation: slideDown 0.8s ease;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
             animation: bounce 1.5s infinite;
         }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 卡片容器 */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card ul {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .card li {
+            padding: 8px 0;
+            padding-left: 25px;
+            color: #555;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+
+        /* 流程图部分 */
+        .workflow {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .workflow h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 2em;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            background: #e8e9ff;
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .step h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        /* 功能模块部分 */
+        .features {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .features h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 2em;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-top: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: #e8e9ff;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-item h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .feature-item p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        /* 底部 */
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            margin-top: 40px;
+            opacity: 0.9;
+        }
+
+        .footer a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                flex-direction: column;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+
+        .code-block {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .code-block code {
+            color: #333;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
-    <h1>🦞 龙虾干活啦</h1>
+    <div class="container">
+        <!-- 顶部标题 -->
+        <div class="header">
+            <h1>🦞 龙虾干活啦</h1>
+            <p>GitHub 新手入门完全指南</p>
+        </div>
+
+        <!-- 快速开始卡片 -->
+        <div class="cards-container">
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <h3>什么是 GitHub？</h3>
+                <p>GitHub 是全球最大的代码托管平台，用于版本控制和协作开发。</p>
+                <ul>
+                    <li>存储和管理代码</li>
+                    <li>跟踪代码变更历史</li>
+                    <li>团队协作开发</li>
+                    <li>开源项目贡献</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🚀</div>
+                <h3>快速开始</h3>
+                <p>从零开始学习 GitHub 的基本操作。</p>
+                <ul>
+                    <li>创建账户和仓库</li>
+                    <li>克隆到本地</li>
+                    <li>提交变更</li>
+                    <li>推送到远程</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔧</div>
+                <h3>Git 基础命令</h3>
+                <p>掌握常用的 Git 命令。</p>
+                <ul>
+                    <li><code>git clone</code> - 克隆仓库</li>
+                    <li><code>git add</code> - 暂存文件</li>
+                    <li><code>git commit</code> - 提交变更</li>
+                    <li><code>git push</code> - 推送更新</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🌳</div>
+                <h3>分支管理</h3>
+                <p>了解如何创建和管理分支。</p>
+                <ul>
+                    <li>创建新分支</li>
+                    <li>切换分支</li>
+                    <li>合并分支</li>
+                    <li>删除分支</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔄</div>
+                <h3>拉取请求 (PR)</h3>
+                <p>学习如何提交和审核代码。</p>
+                <ul>
+                    <li>创建 Pull Request</li>
+                    <li>代码审查</li>
+                    <li>解决冲突</li>
+                    <li>合并代码</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⭐</div>
+                <h3>最佳实践</h3>
+                <p>遵循行业标准的开发流程。</p>
+                <ul>
+                    <li>规范的提交信息</li>
+                    <li>代码审查流程</li>
+                    <li>版本控制策略</li>
+                    <li>协作开发规范</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- GitHub 小白熟悉流程 -->
+        <div class="workflow">
+            <h2>📋 GitHub 小白熟悉流程</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>注册账户</h3>
+                    <p>访问 github.com 并创建你的免费账户</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>安装 Git</h3>
+                    <p>在本地安装 Git 客户端工具</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>配置信息</h3>
+                    <p>配置用户名和邮箱信息</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>创建仓库</h3>
+                    <p>在 GitHub 上创建你的第一个项目</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3>推送代码</h3>
+                    <p>将本地代码上传到 GitHub</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <h3>协作开发</h3>
+                    <p>与他人协作，学习团队开发</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能模块详解 -->
+        <div class="features">
+            <h2>🎯 GitHub 主要功能模块</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>📁 Repository (仓库)</h4>
+                    <p><strong>作用：</strong>存储项目代码和文件的地方。<br><strong>使用方法：</strong>创建仓库后，可以上传文件、管理版本、追踪变更。</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>🔗 Clone (克隆)</h4>
+                    <p><strong>作用：</strong>将远程仓库复制到本地计算机。<br><strong>使用方法：</strong><br><code>git clone &lt;repo-url&gt;</code></p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>📝 Commit (提交)</h4>
+                    <p><strong>作用：</strong>保存你所做的更改，记录项目历史。<br><strong>使用方法：</strong><br><code>git commit -m "描述"</code></p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>⬆️ Push (推送)</h4>
+                    <p><strong>作用：</strong>将本地提交上传到远程仓库。<br><strong>使用方法：</strong><br><code>git push origin main</code></p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>⬇️ Pull (拉取)</h4>
+                    <p><strong>作用：</strong>获取远程仓库的最新更新。<br><strong>使用方法：</strong><br><code>git pull origin main</code></p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>🌳 Branch (分支)</h4>
+                    <p><strong>作用：</strong>创建独立的开发线，互不影响。<br><strong>使用方法：</strong><br><code>git checkout -b feature</code></p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>🔄 Merge (合并)</h4>
+                    <p><strong>作用：</strong>将一个分支的更改合并到另一个分支。<br><strong>使用方法：</strong><br><code>git merge feature</code></p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>🔀 Pull Request (PR)</h4>
+                    <p><strong>作用：</strong>提议代码更改，进行代码审查。<br><strong>使用方法：</strong>在 GitHub 网页上创建 PR，描述更改内容。</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>⭐ Star (收藏)</h4>
+                    <p><strong>作用：</strong>标记你喜欢或关注的项目。<br><strong>使用方法：</strong>点击仓库右上角的 Star 按钮。</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>🍴 Fork (分叉)</h4>
+                    <p><strong>作用：</strong>创建他人项目的个人副本。<br><strong>使用方法：</strong>点击仓库右上角的 Fork 按钮。</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>🐛 Issues (问题)</h4>
+                    <p><strong>作用：</strong>跟踪 Bug、功能请求等问题。<br><strong>使用方法：</strong>在仓库中创建 Issue 来报告问题或讨论功能。</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>📊 Discussions (讨论)</h4>
+                    <p><strong>作用：</strong>与社区进行问题讨论和知识分享。<br><strong>使用方法：</strong>参与项目讨论区进行交互。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 常用命令参考 -->
+        <div class="workflow" style="margin-top: 30px;">
+            <h2>⌨️ 常用 Git 命令参考</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>初始设置</h4>
+                    <div class="code-block">
+                        <code>git config --global user.name "你的名字"<br>
+git config --global user.email "你的邮箱"</code>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <h4>创建和克隆</h4>
+                    <div class="code-block">
+                        <code>git clone &lt;url&gt;<br>
+git init</code>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <h4>查看状态</h4>
+                    <div class="code-block">
+                        <code>git status<br>
+git log<br>
+git diff</code>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <h4>暂存和提交</h4>
+                    <div class="code-block">
+                        <code>git add .<br>
+git add &lt;file&gt;<br>
+git commit -m "信息"</code>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <h4>分支操作</h4>
+                    <div class="code-block">
+                        <code>git branch<br>
+git checkout -b &lt;分支名&gt;<br>
+git merge &lt;分支名&gt;</code>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <h4>远程操作</h4>
+                    <div class="code-block">
+                        <code>git remote -v<br>
+git push origin main<br>
+git pull origin main</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <div class="footer">
+            <p>🎉 现在你已经准备好开始 GitHub 之旅了！</p>
+            <p style="margin-top: 15px;">
+                📚 更多资源：
+                <a href="https://docs.github.com/cn" target="_blank">GitHub 官方文档</a> |
+                <a href="https://git-scm.com/book/zh/v2" target="_blank">Git 官方书籍</a>
+            </p>
+            <p style="margin-top: 20px; opacity: 0.8;">© 2024 龙虾干活啦 | GitHub 新手���门指南</p>
+        </div>
+    </div>
 </body>
 </html>
